@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Barrito Store — Zapatillas y Perfumes Originales</title>
+<meta name="description" content="Barrito Store: Nike, Adidas, Jordan y Perfumes originales. Envíos a todo el Perú." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============== BASE ============== */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:#fafafa;color:#111;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0;background:none}
+:root{
+  --blue:#0F4CFF;
+  --red:#E63946;
+  --ink:#111111;
+  --line:#e5e5e5;
+  --muted:#6b6b6b;
+  --bg:#fafafa;
+  --white:#ffffff;
+}
+
+/* ============== TOPBAR ============== */
+.topbar{background:#111;color:#fff;font-size:12.5px;text-align:center;padding:8px 12px;letter-spacing:.3px}
+.topbar b{color:#fff}
+
+/* ============== HEADER ============== */
+.header{
+  position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);
+}
+.header-inner{
+  max-width:1280px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:24px;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px;letter-spacing:-.5px;cursor:pointer}
+.brand-mark{
+  width:34px;height:34px;border-radius:8px;
+  background:linear-gradient(135deg,var(--blue),#0033cc);
+  color:#fff;display:grid;place-items:center;font-weight:900;font-size:16px;
+}
+.nav{display:flex;gap:26px;flex:1}
+.nav button{font-size:14.5px;font-weight:600;color:#222;padding:6px 0;position:relative}
+.nav button:hover{color:var(--blue)}
+.nav button.active{color:var(--blue)}
+.nav button.active::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--blue)}
+.header-actions{display:flex;align-items:center;gap:8px}
+.search{
+  display:flex;align-items:center;gap:8px;background:#f3f3f3;border-radius:999px;
+  padding:8px 14px;width:260px;
+}
+.search input{border:0;background:transparent;outline:none;flex:1;font-size:14px}
+.icon-btn{
+  position:relative;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+}
+.icon-btn:hover{background:#f3f3f3}
+.cart-badge{
+  position:absolute;top:2px;right:2px;background:var(--red);color:#fff;font-size:10.5px;
+  font-weight:700;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 5px;
+}
+.burger{display:none}
+@media(max-width:900px){
+  .nav{display:none}
+  .search{display:none}
+  .burger{display:grid}
+}
+
+/* ============== VIEWS ============== */
+.view{display:none}
+.view.active{display:block}
+.container{max-width:1280px;margin:0 auto;padding:32px 20px}
+
+/* ============== HERO ============== */
+.hero{
+  background:#111;color:#fff;overflow:hidden;position:relative;
+}
+.hero-inner{
+  max-width:1280px;margin:0 auto;padding:64px 20px;display:grid;
+  grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;
+}
+.hero h1{font-size:clamp(34px,5vw,64px);line-height:1.02;font-weight:900;letter-spacing:-1.5px}
+.hero h1 span{color:#ffd400}
+.hero p{margin-top:18px;color:#cfcfcf;font-size:16px;max-width:460px}
+.hero-cta{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;
+  font-weight:700;font-size:14px;transition:transform .15s,background .15s,color .15s;
+}
+.btn-primary{background:#fff;color:#111}
+.btn-primary:hover{background:#ffd400}
+.btn-outline{border:1px solid #fff;color:#fff}
+.btn-outline:hover{background:#fff;color:#111}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:#0033cc}
+.btn-dark{background:#111;color:#fff}
+.btn-dark:hover{background:#000}
+.hero-img{
+  aspect-ratio:1/1;background:#1a1a1a;border-radius:24px;overflow:hidden;
+  background-image:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=80');
+  background-size:cover;background-position:center;
+}
+@media(max-width:800px){
+  .hero-inner{grid-template-columns:1fr;padding:40px 20px}
+}
+
+/* ============== CATEGORIES STRIP ============== */
+.cats{
+  max-width:1280px;margin:0 auto;padding:40px 20px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+}
+.cat{
+  position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5;cursor:pointer;
+  background:#eee;
+}
+.cat .bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s}
+.cat:hover .bg{transform:scale(1.05)}
+.cat .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 30%,rgba(0,0,0,.7))}
+.cat .lbl{position:absolute;left:18px;right:18px;bottom:16px;color:#fff}
+.cat .lbl b{font-size:22px;font-weight:800;display:block}
+.cat .lbl span{font-size:13px;opacity:.85}
+@media(max-width:800px){.cats{grid-template-columns:repeat(2,1fr)}}
+
+/* ============== SECTION TITLES ============== */
+.section-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:22px;gap:16px}
+.section-head h2{font-size:26px;font-weight:800;letter-spacing:-.5px}
+.section-head a{color:var(--blue);font-weight:600;font-size:14px;cursor:pointer}
+
+/* ============== PRODUCT GRID ============== */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr);gap:14px}}
+.card{cursor:pointer;display:flex;flex-direction:column;gap:10px}
+.card .ph{
+  background:#f1f1f1;border-radius:12px;aspect-ratio:1/1;overflow:hidden;position:relative;
+}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.card:hover .ph img{transform:scale(1.04)}
+.card .tag{
+  position:absolute;top:10px;left:10px;background:#fff;color:#111;font-size:11px;font-weight:700;
+  padding:5px 9px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;
+}
+.card .tag.red{background:var(--red);color:#fff}
+.card .tag.blue{background:var(--blue);color:#fff}
+.card .brand{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.card .name{font-size:15px;font-weight:600;color:#111;line-height:1.3}
+.card .price{font-size:15px;font-weight:700;color:#111}
+.card .price small{color:var(--muted);font-weight:500;text-decoration:line-through;margin-left:6px;font-size:13px}
+
+/* ============== CATALOG HEADER (BRAND HERO) ============== */
+.brandhero{
+  position:relative;color:#fff;overflow:hidden;
+  padding:50px 20px;text-align:center;
+}
+.brandhero .bglayer{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.45)}
+.brandhero .inner{position:relative;max-width:1280px;margin:0 auto}
+.brandhero h1{
+  font-size:clamp(60px,12vw,140px);line-height:.9;font-weight:900;letter-spacing:-4px;
+  text-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+.brandhero p{margin-top:14px;color:#eee;font-size:15px}
+
+/* 3D LOGOS */
+.logo3d{
+  display:inline-block;font-weight:900;letter-spacing:-3px;
+  background:linear-gradient(180deg,#ffffff 0%,#bdbdbd 60%,#5a5a5a 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:
+    0 1px 0 #fff,
+    0 6px 1px rgba(0,0,0,.3),
+    0 0 5px rgba(0,0,0,.2),
+    0 1px 3px rgba(0,0,0,.4),
+    0 3px 5px rgba(0,0,0,.3),
+    0 5px 10px rgba(0,0,0,.25);
+}
+
+/* ============== TOOLBAR (sin filtros laterales) ============== */
+.toolbar{
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:24px;flex-wrap:wrap;gap:10px;
+}
+.toolbar .count{color:var(--muted);font-size:14px}
+.toolbar select{
+  border:1px solid var(--line);background:#fff;padding:9px 12px;border-radius:8px;
+  font-size:14px;font-weight:500;cursor:pointer;outline:none;
+}
+
+/* ============== PRODUCT DETAIL ============== */
+.pd{display:grid;grid-template-columns:1.1fr 1fr;gap:48px}
+@media(max-width:850px){.pd{grid-template-columns:1fr;gap:24px}}
+.pd-img{background:#f3f3f3;border-radius:16px;aspect-ratio:1/1;overflow:hidden}
+.pd-img img{width:100%;height:100%;object-fit:cover}
+.pd-info .brand{color:var(--muted);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.pd-info h1{font-size:30px;font-weight:800;margin:6px 0 14px;letter-spacing:-.5px}
+.pd-info .price{font-size:24px;font-weight:800;margin-bottom:20px}
+.pd-info .price small{color:var(--muted);font-weight:500;text-decoration:line-through;margin-left:8px;font-size:16px}
+.pd-info .desc{color:#444;margin-bottom:24px;font-size:14.5px}
+.sizes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.size{
+  border:1px solid #ddd;padding:10px 14px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;
+  min-width:54px;text-align:center;background:#fff;
+}
+.size:hover{border-color:#111}
+.size.active{background:#111;color:#fff;border-color:#111}
+.pd-info h4{font-size:13px;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.pd-actions{display:flex;gap:10px}
+.pd-actions .btn{flex:1;justify-content:center}
+
+/* ============== CART ============== */
+.cart-wrap{display:grid;grid-template-columns:1.6fr 1fr;gap:30px}
+@media(max-width:850px){.cart-wrap{grid-template-columns:1fr}}
+.cart-list{display:flex;flex-direction:column;gap:14px}
+.cart-item{
+  display:grid;grid-template-columns:90px 1fr auto;gap:14px;align-items:center;
+  padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff;
+}
+.cart-item img{width:90px;height:90px;object-fit:cover;border-radius:8px;background:#f1f1f1}
+.cart-item .info b{display:block;font-size:15px}
+.cart-item .info span{color:var(--muted);font-size:13px}
+.cart-item .qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px;margin-top:6px}
+.cart-item .qty button{width:28px;height:28px}
+.cart-item .right{text-align:right}
+.cart-item .right b{display:block;font-size:15px;margin-bottom:6px}
+.cart-item .remove{color:var(--red);font-size:12.5px;font-weight:600}
+.summary{
+  background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;height:fit-content;position:sticky;top:90px;
+}
+.summary h3{font-size:18px;font-weight:800;margin-bottom:16px}
+.summary .row{display:flex;justify-content:space-between;padding:8px 0;font-size:14px;color:#333}
+.summary .row.total{border-top:1px solid var(--line);margin-top:8px;padding-top:14px;font-size:17px;font-weight:800;color:#111}
+
+/* ============== CHECKOUT ============== */
+.checkout-wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:30px}
+@media(max-width:850px){.checkout-wrap{grid-template-columns:1fr}}
+.form{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px}
+.form h3{font-size:18px;font-weight:800;margin-bottom:18px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#333}
+.field input,.field textarea{
+  width:100%;padding:11px 13px;border:1px solid #d8d8d8;border-radius:8px;font-size:14px;
+  font-family:inherit;outline:none;transition:border .15s;
+}
+.field input:focus,.field textarea:focus{border-color:var(--blue)}
+.pay-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.pay-opt{
+  border:1.5px solid #ddd;border-radius:10px;padding:14px 10px;text-align:center;font-weight:600;font-size:13.5px;
+  cursor:pointer;background:#fff;transition:all .15s;
+}
+.pay-opt:hover{border-color:#111}
+.pay-opt.active{border-color:var(--blue);background:#eff4ff;color:var(--blue)}
+.qr-box{
+  display:none;margin-top:16px;padding:18px;border:1px dashed #cfcfcf;border-radius:12px;text-align:center;background:#fafafa;
+}
+.qr-box.active{display:block}
+.qr-box h4{font-size:14px;font-weight:700;margin-bottom:10px}
+.qr-box img{width:170px;height:170px;margin:0 auto;border-radius:8px;background:#fff;padding:8px;border:1px solid #eee}
+.qr-box p{font-size:12.5px;color:var(--muted);margin-top:8px}
+
+/* ============== TESTIMONIALS ============== */
+.tests{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:800px){.tests{grid-template-columns:1fr}}
+.test{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.test .stars{color:#ffb400;margin-bottom:8px;font-size:14px}
+.test p{font-size:14px;color:#333}
+.test .who{margin-top:12px;font-size:13px;font-weight:700}
+.test .who span{color:var(--muted);font-weight:500;display:block;font-size:12px}
+
+/* ============== FOOTER ============== */
+.footer{background:#0c0c0c;color:#aaa;margin-top:60px}
+.footer-inner{max-width:1280px;margin:0 auto;padding:50px 20px 24px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}
+@media(max-width:800px){.footer-inner{grid-template-columns:1fr 1fr}}
+.footer h5{color:#fff;font-size:14px;font-weight:700;margin-bottom:14px;text-transform:uppercase;letter-spacing:1px}
+.footer ul{list-style:none}
+.footer li{margin-bottom:8px;font-size:13.5px;cursor:pointer}
+.footer li:hover{color:#fff}
+.footer .copy{text-align:center;border-top:1px solid #1c1c1c;padding:18px;font-size:12.5px;color:#666}
+
+/* ============== TOAST ============== */
+.toast{
+  position:fixed;bottom:24px;right:24px;background:#111;color:#fff;padding:14px 18px;border-radius:10px;
+  font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:200;opacity:0;
+  transform:translateY(20px);transition:all .25s;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* ============== MODAL ============== */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;
+  padding:20px;z-index:300;
+}
+.modal-bg.show{display:flex}
+.modal{
+  background:#fff;border-radius:14px;max-width:560px;width:100%;padding:28px;max-height:85vh;overflow:auto;
+}
+.modal h2{font-size:22px;font-weight:800;margin-bottom:14px}
+.modal p{color:#333;font-size:14px;margin-bottom:10px}
+.modal .close{float:right;font-size:22px;color:#666;font-weight:700;cursor:pointer;line-height:1}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">🚚 Envío gratis a Lima en compras desde S/250 · WhatsApp <b>+51 988 164 963</b></div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="brand" onclick="go('home')">
+      <div class="brand-mark">B</div>
+      <div>Barrito<span style="color:var(--blue)">.</span>Store</div>
+    </div>
+    <nav class="nav" id="nav">
+      <button data-nav="home" onclick="go('home')">Inicio</button>
+      <button data-nav="nike" onclick="goCat('Nike')">Nike</button>
+      <button data-nav="adidas" onclick="goCat('Adidas')">Adidas</button>
+      <button data-nav="jordan" onclick="goCat('Jordan')">Jordan</button>
+      <button data-nav="perfumes" onclick="goCat('Perfumes')">Perfumes</button>
+      <button onclick="go('contact')">Contacto</button>
+    </nav>
+    <div class="header-actions">
+      <div class="search">
+        <span>🔍</span>
+        <input id="searchInput" placeholder="Buscar productos…" oninput="liveSearch(this.value)">
+      </div>
+      <button class="icon-btn" onclick="go('cart')" title="Carrito">
+        🛒<span class="cart-badge" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ====================== HOME ====================== -->
+<main id="view-home" class="view active">
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>Estilo que <span>camina contigo</span>.</h1>
+        <p>Las mejores zapatillas y fragancias originales en un solo lugar. Calidad garantizada y entrega a todo el Perú.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="goCat('Nike')">Comprar ahora →</button>
+          <button class="btn btn-outline" onclick="goCat('Jordan')">Ver Jordan</button>
+        </div>
+      </div>
+      <div class="hero-img"></div>
+    </div>
+  </section>
+
+  <!-- Categorías -->
+  <section class="cats">
+    <div class="cat" onclick="goCat('Nike')">
+      <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600&q=80')"></div>
+      <div class="ov"></div>
+      <div class="lbl"><b>Nike</b><span>Just Do It</span></div>
+    </div>
+    <div class="cat" onclick="goCat('Adidas')">
+      <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=600&q=80')"></div>
+      <div class="ov"></div>
+      <div class="lbl"><b>Adidas</b><span>Impossible is Nothing</span></div>
+    </div>
+    <div class="cat" onclick="goCat('Jordan')">
+      <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600&q=80')"></div>
+      <div class="ov"></div>
+      <div class="lbl"><b>Jordan</b><span>Fly above</span></div>
+    </div>
+    <div class="cat" onclick="goCat('Perfumes')">
+      <div class="bg" style="background-image:url('https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80')"></div>
+      <div class="ov"></div>
+      <div class="lbl"><b>Perfumes</b><span>Fragancias originales</span></div>
+    </div>
+  </section>
+
+  <!-- Más vendidos -->
+  <section class="container">
+    <div class="section-head">
+      <h2>Más vendidos</h2>
+      <a onclick="goCat('Nike')">Ver todo →</a>
+    </div>
+    <div class="grid" id="bestGrid"></div>
+  </section>
+
+  <!-- Ofertas -->
+  <section class="container">
+    <div class="section-head">
+      <h2>Ofertas especiales</h2>
+      <a onclick="goCat('Adidas')">Ver todo →</a>
+    </div>
+    <div class="grid" id="dealGrid"></div>
+  </section>
+
+  <!-- Testimonios -->
+  <section class="container">
+    <div class="section-head"><h2>Lo que dicen nuestros clientes</h2></div>
+    <div class="tests">
+      <div class="test"><div class="stars">★★★★★</div><p>"Llegaron en 2 días, originales y bien empacadas. Recomendado al 100%."</p><div class="who">Carlos M.<span>Lima</span></div></div>
+      <div class="test"><div class="stars">★★★★★</div><p>"Excelente atención por WhatsApp, resolvieron todas mis dudas."</p><div class="who">Lucía R.<span>Trujillo</span></div></div>
+      <div class="test"><div class="stars">★★★★★</div><p>"El perfume original al mejor precio. Volveré a comprar sin duda."</p><div class="who">Andrés P.<span>Arequipa</span></div></div>
+    </div>
+  </section>
+</main>
+
+<!-- ====================== CATALOG ====================== -->
+<main id="view-catalog" class="view">
+  <section class="brandhero" id="brandHero">
+    <div class="bglayer" id="brandHeroBg"></div>
+    <div class="inner">
+      <div id="brandLogo3d"></div>
+      <p id="brandSlogan"></p>
+    </div>
+  </section>
+  <section class="container">
+    <div class="toolbar">
+      <div class="count" id="catCount">0 productos</div>
+      <select id="sortSel" onchange="renderCatalog()">
+        <option value="relevance">Ordenar: Relevancia</option>
+        <option value="low">Precio: menor a mayor</option>
+        <option value="high">Precio: mayor a menor</option>
+        <option value="name">Nombre A-Z</option>
+      </select>
+    </div>
+    <div class="grid" id="catalogGrid"></div>
+  </section>
+</main>
+
+<!-- ====================== PRODUCT DETAIL ====================== -->
+<main id="view-detail" class="view">
+  <section class="container">
+    <div class="pd" id="pdContent"></div>
+  </section>
+</main>
+
+<!-- ====================== CART ====================== -->
+<main id="view-cart" class="view">
+  <section class="container">
+    <h1 style="font-size:28px;font-weight:800;margin-bottom:20px">Tu carrito</h1>
+    <div class="cart-wrap">
+      <div class="cart-list" id="cartList"></div>
+      <div class="summary">
+        <h3>Resumen</h3>
+        <div class="row"><span>Subtotal</span><span id="sumSub">S/0.00</span></div>
+        <div class="row"><span>Envío</span><span id="sumShip">Gratis</span></div>
+        <div class="row total"><span>Total</span><span id="sumTotal">S/0.00</span></div>
+        <button class="btn btn-blue" style="width:100%;justify-content:center;margin-top:14px" onclick="goCheckout()">Continuar compra →</button>
+        <button class="btn btn-outline" style="width:100%;justify-content:center;margin-top:8px;color:#111;border-color:#ddd" onclick="goCat('Nike')">Seguir comprando</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ====================== CHECKOUT ====================== -->
+<main id="view-checkout" class="view">
+  <section class="container">
+    <h1 style="font-size:28px;font-weight:800;margin-bottom:20px">Finalizar compra</h1>
+    <div class="checkout-wrap">
+      <div class="form">
+        <h3>Datos de envío</h3>
+        <div class="field"><label>Nombre completo</label><input id="cName" placeholder="Ej: Juan Pérez García"></div>
+        <div class="field"><label>Número de celular</label><input id="cPhone" placeholder="Ej: 988 164 963" type="tel"></div>
+        <div class="field"><label>Dirección de entrega</label><textarea id="cAddr" rows="2" placeholder="Av. / Calle, número, distrito, referencia"></textarea></div>
+
+        <h3 style="margin-top:18px">Método de pago</h3>
+        <div class="pay-opts">
+          <div class="pay-opt" data-pay="Yape" onclick="selectPay(this)">📱 Yape</div>
+          <div class="pay-opt" data-pay="Plin" onclick="selectPay(this)">💸 Plin</div>
+          <div class="pay-opt" data-pay="Efectivo" onclick="selectPay(this)">💵 Efectivo</div>
+        </div>
+
+        <div class="qr-box" id="qrYape">
+          <h4>Paga escaneando este QR — Yape</h4>
+          <img alt="QR Yape" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=YAPE%20BARRITO%20STORE%20988164963">
+          <p>Titular: Barrito Store · +51 988 164 963</p>
+        </div>
+        <div class="qr-box" id="qrPlin">
+          <h4>Paga escaneando este QR — Plin</h4>
+          <img alt="QR Plin" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=PLIN%20BARRITO%20STORE%20988164963">
+          <p>Titular: Barrito Store · +51 988 164 963</p>
+        </div>
+      </div>
+
+      <div class="summary">
+        <h3>Tu pedido</h3>
+        <div id="checkoutItems" style="margin-bottom:10px"></div>
+        <div class="row"><span>Subtotal</span><span id="cSub">S/0.00</span></div>
+        <div class="row"><span>Envío</span><span>Gratis</span></div>
+        <div class="row total"><span>Total</span><span id="cTotal">S/0.00</span></div>
+        <button class="btn btn-blue" style="width:100%;justify-content:center;margin-top:14px" onclick="confirmOrder()">Confirmar pedido por WhatsApp</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ====================== CONTACT ====================== -->
+<main id="view-contact" class="view">
+  <section class="container" style="max-width:720px">
+    <h1 style="font-size:28px;font-weight:800;margin-bottom:8px">Contáctanos</h1>
+    <p style="color:var(--muted);margin-bottom:24px">¿Dudas sobre un producto, talla o envío? Escríbenos.</p>
+    <div class="form">
+      <div class="field"><label>Nombre</label><input id="ctName"></div>
+      <div class="field"><label>Email</label><input id="ctEmail" type="email"></div>
+      <div class="field"><label>Mensaje</label><textarea id="ctMsg" rows="4"></textarea></div>
+      <button class="btn btn-dark" onclick="sendContact()">Enviar mensaje</button>
+    </div>
+  </section>
+</main>
+
+<!-- ====================== FOOTER ====================== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="brand" style="color:#fff;margin-bottom:10px"><div class="brand-mark">B</div><div>Barrito.Store</div></div>
+      <p style="font-size:13.5px;line-height:1.6">Tienda peruana de zapatillas y perfumes originales. Despachos a todo el Perú con garantía de autenticidad.</p>
+    </div>
+    <div>
+      <h5>Tienda</h5>
+      <ul>
+        <li onclick="goCat('Nike')">Nike</li>
+        <li onclick="goCat('Adidas')">Adidas</li>
+        <li onclick="goCat('Jordan')">Jordan</li>
+        <li onclick="goCat('Perfumes')">Perfumes</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Ayuda</h5>
+      <ul>
+        <li onclick="openModal('priv')">Política de privacidad</li>
+        <li onclick="openModal('terms')">Términos y condiciones</li>
+        <li onclick="openModal('ret')">Cambios y devoluciones</li>
+        <li onclick="go('contact')">Contacto</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Contacto</h5>
+      <ul>
+        <li>📱 +51 988 164 963</li>
+        <li>📧 ventas@barritostore.pe</li>
+        <li>📍 Lima, Perú</li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">© 2026 Barrito Store · Hecho con dedicación en Perú.</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<!-- Modal -->
+<div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <span class="close" onclick="closeModal()">×</span>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   BARRITO STORE — Lógica de tienda
+   ============================================================ */
+
+/* -------- Catálogo (productos por categoría) -------- */
+const IMG = {
+  nike:[
+    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80',
+    'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600&q=80',
+    'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80',
+    'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80',
+    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&q=80',
+  ],
+  adidas:[
+    'https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=600&q=80',
+    'https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=600&q=80',
+    'https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&q=80',
+    'https://images.unsplash.com/photo-1579338559194-a162d19bf842?w=600&q=80',
+    'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&q=80',
+  ],
+  jordan:[
+    'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600&q=80',
+    'https://images.unsplash.com/photo-1597248881519-db089d3744a5?w=600&q=80',
+    'https://images.unsplash.com/photo-1552346154-21d32810aba3?w=600&q=80',
+    'https://images.unsplash.com/photo-1543508282-6319a3e2621f?w=600&q=80',
+    'https://images.unsplash.com/photo-1605408499391-6368c628ef42?w=600&q=80',
+  ],
+  perfumes:[
+    'https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80',
+    'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=600&q=80',
+    'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600&q=80',
+    'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=600&q=80',
+    'https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80',
+  ],
+};
+const NAMES = {
+  Nike:['Air Max 270','Air Force 1','Pegasus 40','Dunk Low Retro','Court Vision','Revolution 6','Air Zoom Rival','Cortez Classic','Blazer Mid','Air Max Plus'],
+  Adidas:['Ultraboost 22','Stan Smith','Superstar','Forum Low','Samba OG','Gazelle Bold','NMD R1','Yeezy 350','Campus 00s','Adizero'],
+  Jordan:['Air Jordan 1 High','Air Jordan 4 Retro','Air Jordan 11 Bred','Air Jordan 3 White','Air Jordan 5 Fire','Air Jordan 6 Carmine','Air Jordan 12 Royal','Air Jordan 13 Playoff','Jordan Luka 2','Jordan Tatum 1'],
+  Perfumes:['Dior Sauvage EDT','Carolina Herrera 212 VIP','Paco Rabanne 1 Million','Versace Eros','YSL Black Opium','Chanel Bleu','Hugo Boss Bottled','Armani Code','Calvin Klein One','Lacoste L.12.12'],
+};
+
+function buildProducts(){
+  const out=[];let id=1;
+  const cats=[
+    {c:'Nike',k:'nike',base:299},
+    {c:'Adidas',k:'adidas',base:329},
+    {c:'Jordan',k:'jordan',base:489},
+    {c:'Perfumes',k:'perfumes',base:249},
+  ];
+  for(const {c,k,base} of cats){
+    NAMES[c].forEach((nm,i)=>{
+      const price = base + i*15 + (i%3)*10;
+      const old = price + 60 + (i%2)*40;
+      out.push({
+        id:id++,cat:c,brand:c,name:nm,
+        price, old,
+        img: IMG[k][i%IMG[k].length],
+        sizes: c==='Perfumes' ? ['50ml','100ml','150ml'] : ['38','39','40','41','42','43'],
+        tag: i===0?'NUEVO':(i===1?'-20%':(i===2?'TOP':'')),
+        desc:`${nm} — producto 100% original. Acabados premium, envío inmediato desde nuestra tienda en Lima.`,
+      });
+    });
+  }
+  return out;
+}
+const PRODUCTS = buildProducts();
+
+/* -------- Estado -------- */
+let cart = JSON.parse(localStorage.getItem('bs_cart')||'[]');
+let currentCat = 'Nike';
+let currentDetail = null;
+let selectedSize = null;
+let selectedPay = null;
+
+const fmt = n => 'S/'+n.toFixed(2);
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+/* -------- Navegación -------- */
+function go(view){
+  $$('.view').forEach(v=>v.classList.remove('active'));
+  $('#view-'+view).classList.add('active');
+  $$('.nav button').forEach(b=>b.classList.remove('active'));
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function goCat(cat){
+  currentCat = cat;
+  go('catalog');
+  $$('.nav button').forEach(b=>{
+    if(b.dataset.nav===cat.toLowerCase()) b.classList.add('active');
+  });
+  renderBrandHero(cat);
+  renderCatalog();
+}
+
+/* -------- Brand hero (logos 3D) -------- */
+const BRAND = {
+  Nike:{bg:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1600&q=80',slogan:'JUST DO IT — Colección Nike 2026'},
+  Adidas:{bg:'https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=1600&q=80',slogan:'IMPOSSIBLE IS NOTHING — Adidas Originals'},
+  Jordan:{bg:'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=1600&q=80',slogan:'FLY ABOVE — Air Jordan Collection'},
+  Perfumes:{bg:'https://images.unsplash.com/photo-1541643600914-78b084683601?w=1600&q=80',slogan:'Fragancias originales premium'},
+};
+function renderBrandHero(cat){
+  const b = BRAND[cat];
+  $('#brandHeroBg').style.backgroundImage = `url('${b.bg}')`;
+  $('#brandSlogan').textContent = b.slogan;
+  let logoHTML = '';
+  if(cat==='Nike'){
+    logoHTML = `<h1 class="logo3d" style="font-style:italic">✓ NIKE</h1>`;
+  } else if(cat==='Adidas'){
+    logoHTML = `<h1 class="logo3d">▲ ADIDAS</h1>`;
+  } else if(cat==='Jordan'){
+    logoHTML = `<h1 class="logo3d">🏀 JORDAN</h1>`;
+  } else {
+    logoHTML = `<h1 class="logo3d">PERFUMES</h1>`;
+  }
+  $('#brandLogo3d').innerHTML = logoHTML;
+}
+
+/* -------- Render productos -------- */
+function cardHTML(p){
+  return `
+    <div class="card" onclick="openDetail(${p.id})">
+      <div class="ph">
+        ${p.tag?`<span class="tag ${p.tag==='-20%'?'red':(p.tag==='NUEVO'?'blue':'')}">${p.tag}</span>`:''}
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+      </div>
+      <div class="brand">${p.brand}</div>
+      <div class="name">${p.name}</div>
+      <div class="price">${fmt(p.price)} ${p.old>p.price?`<small>${fmt(p.old)}</small>`:''}</div>
+    </div>`;
+}
+function renderHome(){
+  const best = PRODUCTS.slice(0,8);
+  const deals = PRODUCTS.filter(p=>p.old>p.price).slice(0,4);
+  $('#bestGrid').innerHTML = best.map(cardHTML).join('');
+  $('#dealGrid').innerHTML = deals.map(cardHTML).join('');
+}
+function renderCatalog(){
+  let items = PRODUCTS.filter(p=>p.cat===currentCat);
+  const sort = $('#sortSel').value;
+  if(sort==='low') items.sort((a,b)=>a.price-b.price);
+  else if(sort==='high') items.sort((a,b)=>b.price-a.price);
+  else if(sort==='name') items.sort((a,b)=>a.name.localeCompare(b.name));
+  $('#catCount').textContent = items.length+' productos';
+  $('#catalogGrid').innerHTML = items.map(cardHTML).join('');
+}
+
+/* -------- Búsqueda -------- */
+function liveSearch(q){
+  q = q.trim().toLowerCase();
+  if(!q) return;
+  const matches = PRODUCTS.filter(p=>p.name.toLowerCase().includes(q)||p.brand.toLowerCase().includes(q));
+  if(!matches.length){ toast('Sin resultados'); return; }
+  currentCat = matches[0].cat;
+  go('catalog');
+  renderBrandHero(currentCat);
+  $('#catCount').textContent = matches.length+' resultados para "'+q+'"';
+  $('#catalogGrid').innerHTML = matches.map(cardHTML).join('');
+}
+
+/* -------- Detalle de producto -------- */
+function openDetail(id){
+  const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
+  currentDetail = p; selectedSize = null;
+  $('#pdContent').innerHTML = `
+    <div class="pd-img"><img src="${p.img}" alt="${p.name}"></div>
+    <div class="pd-info">
+      <div class="brand">${p.brand}</div>
+      <h1>${p.name}</h1>
+      <div class="price">${fmt(p.price)} ${p.old>p.price?`<small>${fmt(p.old)}</small>`:''}</div>
+      <p class="desc">${p.desc}</p>
+      <h4>${p.cat==='Perfumes'?'Tamaño':'Talla'}</h4>
+      <div class="sizes" id="sizesBox">
+        ${p.sizes.map(s=>`<button class="size" onclick="pickSize(this,'${s}')">${s}</button>`).join('')}
+      </div>
+      <div class="pd-actions">
+        <button class="btn btn-dark" onclick="addToCart()">Añadir al carrito</button>
+        <button class="btn btn-blue" onclick="buyNow()">Comprar ahora</button>
+      </div>
+    </div>`;
+  go('detail');
+}
+function pickSize(el,s){
+  $$('#sizesBox .size').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active'); selectedSize = s;
+}
+function addToCart(){
+  if(!currentDetail) return;
+  if(!selectedSize){ toast('Selecciona una talla'); return; }
+  const key = currentDetail.id+'-'+selectedSize;
+  const existing = cart.find(c=>c.key===key);
+  if(existing) existing.qty++;
+  else cart.push({key,id:currentDetail.id,name:currentDetail.name,brand:currentDetail.brand,price:currentDetail.price,img:currentDetail.img,size:selectedSize,qty:1});
+  saveCart(); toast('✓ Añadido al carrito');
+}
+function buyNow(){ addToCart(); if(cart.length) go('cart'); }
+
+/* -------- Carrito -------- */
+function saveCart(){
+  localStorage.setItem('bs_cart',JSON.stringify(cart));
+  $('#cartCount').textContent = cart.reduce((a,b)=>a+b.qty,0);
+  renderCart();
+}
+function renderCart(){
+  const box = $('#cartList'); if(!box) return;
+  if(!cart.length){ box.innerHTML = '<p style="color:#666">Tu carrito está vacío.</p>'; }
+  else{
+    box.innerHTML = cart.map((c,i)=>`
+      <div class="cart-item">
+        <img src="${c.img}" alt="">
+        <div class="info">
+          <b>${c.name}</b>
+          <span>${c.brand} · Talla ${c.size}</span>
+          <div class="qty">
+            <button onclick="chgQty(${i},-1)">−</button>
+            <span style="padding:0 10px;font-weight:600">${c.qty}</span>
+            <button onclick="chgQty(${i},1)">+</button>
+          </div>
+        </div>
+        <div class="right">
+          <b>${fmt(c.price*c.qty)}</b>
+          <button class="remove" onclick="rmItem(${i})">Eliminar</button>
+        </div>
+      </div>`).join('');
+  }
+  const sub = cart.reduce((a,b)=>a+b.price*b.qty,0);
+  $('#sumSub').textContent = fmt(sub);
+  $('#sumTotal').textContent = fmt(sub);
+}
+function chgQty(i,d){ cart[i].qty=Math.max(1,cart[i].qty+d); saveCart(); }
+function rmItem(i){ cart.splice(i,1); saveCart(); toast('Producto eliminado'); }
+
+/* -------- Checkout -------- */
+function goCheckout(){
+  if(!cart.length){ toast('Tu carrito está vacío'); return; }
+  go('checkout'); renderCheckout();
+}
+function renderCheckout(){
+  const sub = cart.reduce((a,b)=>a+b.price*b.qty,0);
+  $('#cSub').textContent = fmt(sub);
+  $('#cTotal').textContent = fmt(sub);
+  $('#checkoutItems').innerHTML = cart.map(c=>`
+    <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13.5px;color:#333">
+      <span>${c.qty}× ${c.name} <small style="color:#888">(${c.size})</small></span>
+      <span>${fmt(c.price*c.qty)}</span>
+    </div>`).join('');
+}
+function selectPay(el){
+  $$('.pay-opt').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  selectedPay = el.dataset.pay;
+  $('#qrYape').classList.toggle('active', selectedPay==='Yape');
+  $('#qrPlin').classList.toggle('active', selectedPay==='Plin');
+}
+function confirmOrder(){
+  const name=$('#cName').value.trim(), phone=$('#cPhone').value.trim(), addr=$('#cAddr').value.trim();
+  if(!name||!phone||!addr){ toast('Completa todos los datos'); return; }
+  if(!selectedPay){ toast('Selecciona un método de pago'); return; }
+  const code = 'BS-'+Date.now().toString().slice(-6);
+  const sub = cart.reduce((a,b)=>a+b.price*b.qty,0);
+  let msg = `🛒 *NUEVO PEDIDO — BARRITO STORE*%0A%0A`;
+  msg += `📌 *Código:* ${code}%0A`;
+  msg += `👤 *Cliente:* ${name}%0A📱 *Celular:* ${phone}%0A📍 *Dirección:* ${addr}%0A💳 *Pago:* ${selectedPay}%0A%0A*Productos:*%0A`;
+  cart.forEach(c=>{ msg += `• ${c.qty}× ${c.name} (${c.size}) — ${fmt(c.price*c.qty)}%0A`; });
+  msg += `%0A*TOTAL:* ${fmt(sub)}`;
+  window.open(`https://wa.me/51988164963?text=${msg}`,'_blank');
+  cart=[]; saveCart(); toast('✓ Pedido enviado por WhatsApp'); go('home');
+}
+
+/* -------- Contacto -------- */
+function sendContact(){
+  const n=$('#ctName').value.trim(), e=$('#ctEmail').value.trim(), m=$('#ctMsg').value.trim();
+  if(!n||!e||!m){ toast('Completa todos los campos'); return; }
+  const t=`Hola Barrito Store, soy ${n} (${e}). ${m}`;
+  window.open(`https://wa.me/51988164963?text=${encodeURIComponent(t)}`,'_blank');
+  toast('✓ Mensaje enviado');
+}
+
+/* -------- Modal -------- */
+const MODALS = {
+  priv:{t:'Política de privacidad',b:'En Barrito Store respetamos tu privacidad. Los datos personales que recopilamos (nombre, celular, dirección) se utilizan únicamente para procesar tu pedido y coordinar la entrega. No compartimos tu información con terceros.'},
+  terms:{t:'Términos y condiciones',b:'Al comprar en Barrito Store aceptas que todos nuestros productos son originales y nuevos. Los precios están expresados en soles peruanos (S/). El plazo de entrega en Lima es de 24 a 48 horas y a provincias de 2 a 5 días hábiles.'},
+  ret:{t:'Cambios y devoluciones',b:'Aceptamos cambios por talla dentro de los 7 días posteriores a la entrega, siempre que el producto esté en perfecto estado, sin uso y con su empaque original. Los gastos de envío del cambio corren por cuenta del cliente.'},
+};
+function openModal(k){
+  const m = MODALS[k];
+  $('#modalBody').innerHTML = `<h2>${m.t}</h2><p>${m.b}</p>`;
+  $('#modal').classList.add('show');
+}
+function closeModal(){ $('#modal').classList.remove('show'); }
+
+/* -------- Toast -------- */
+let toastTimer;
+function toast(msg){
+  const t=$('#toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* -------- Init -------- */
+renderHome();
+saveCart();
+</script>
+</body>
+</html>
